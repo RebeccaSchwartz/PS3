@@ -2,7 +2,13 @@ package pkgLibrary;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import exceptions.BookException;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -32,6 +38,35 @@ public class Catalog {
 	public void setBooks(ArrayList<Book> books) {
 		this.books = books;
 	}
+	
+	public Book GetBook(String id) throws BookException{
+		Book b = null;
+		for (Book l: books){
+			if (l.getId().equals(id)){
+				b = l;
+				
+			}
+		}
+		if (b == null){
+			b = new Book(id);
+			throw new BookException(b);
+		}
+		return b;
+		
+	}
+	public void AddBook(String id) throws BookException{
+		for (Book b: books){
+			if (b.getId().equals(id)){
+				throw new BookException(b);
+			}
+		}
+		Book b = new Book(id);
+		books.add(b);
+		
+	}
+		
+	
+	 
 	
 
 	
